@@ -1,0 +1,328 @@
+.calendar-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.month-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.month-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.month-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.month-base {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-button {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #6b7280;
+}
+
+.nav-button:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.nav-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.calendar-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  background: #f8f9fa;
+  padding: 16px 20px;
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 0;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  background: white;
+  padding: 20px;
+  padding-top: 12px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px;
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.2s;
+  background: white;
+  border: 1px solid #e5e7eb;
+  min-height: 100px;
+}
+
+.calendar-day.other-month {
+  background: #f9fafb;
+}
+
+.calendar-day.other-month .day-number {
+  color: #9ca3af;
+}
+
+.calendar-day.today .day-content {
+  background: #e0e7ff;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.day-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.day-number {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.day-target {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.day-checkbox {
+  width: 100%;
+  height: 36px;
+  border-radius: 8px;
+  background: #e8eaed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.day-checkbox:hover:not(.inactive) {
+  background: #d1d5db;
+}
+
+.day-checkbox.checked {
+  background: #3b82f6;
+}
+
+.day-checkbox.checked:hover {
+  background: #2563eb;
+}
+
+.day-checkbox.inactive {
+  background: #f3f4f6;
+  cursor: default;
+  opacity: 0.5;
+}
+
+.checkmark-icon {
+  width: 20px;
+  height: 20px;
+  animation: checkmarkPop 0.3s ease;
+}
+
+@keyframes checkmarkPop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* Progress Bar */
+.progress-container {
+  background: #1e293b;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.progress-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #94a3b8;
+}
+
+.progress-percentage {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+}
+
+.progress-stats {
+  font-size: 14px;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #334155;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 12px;
+    max-width: 100%;
+  }
+
+  .month-header-box {
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+
+  .month-title {
+    font-size: 18px;
+  }
+
+  .month-base {
+    font-size: 13px;
+  }
+
+  .nav-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .calendar-days-header {
+    padding: 12px 16px;
+    gap: 6px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .calendar-day-header {
+    font-size: 11px;
+  }
+
+  .calendar-grid {
+    gap: 6px;
+    padding: 16px;
+    padding-top: 12px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .calendar-day {
+    border-radius: 16px;
+    min-height: 110px;
+    padding: 10px 8px;
+  }
+
+  .day-number {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .day-target {
+    font-size: 11px;
+  }
+
+  .day-checkbox {
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .checkmark-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .progress-container {
+    margin-top: 16px;
+    padding: 18px;
+  }
+
+  .progress-percentage {
+    font-size: 32px;
+  }
+}

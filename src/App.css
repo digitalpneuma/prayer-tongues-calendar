@@ -1,0 +1,102 @@
+.App {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 20px;
+}
+
+.app-header {
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.header-text {
+  flex: 1;
+}
+
+.app-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.today-button-header {
+  background: transparent;
+  border: none;
+  color: #3b82f6;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.today-button-header:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.app-footer {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .App {
+    padding: 12px;
+  }
+
+  .app-header {
+    margin-bottom: 16px;
+    padding: 12px;
+  }
+
+  .header-content {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .app-header h1 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .today-button-header {
+    font-size: 15px;
+    padding: 6px 10px;
+  }
+
+  .app-footer {
+    margin-top: 30px;
+    padding: 12px;
+  }
+
+  .app-footer p {
+    font-size: 12px;
+  }
+}
