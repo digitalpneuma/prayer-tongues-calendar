@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { DayData, PrayerLog } from '../types';
-import { getCalendarDays, DAYS_OF_WEEK, MONTH_NAMES, calculateDuration, toIsoString } from '../utils/calendar';
+import { getCalendarDays, DAYS_OF_WEEK, MONTH_NAMES, calculateDuration } from '../utils/calendar';
 import './Calendar.css';
 
 export interface CalendarRef {
   goToToday: () => void;
 }
 
-export const Calendar = forwardRef<CalendarRef>((props, ref) => {
+export const Calendar = forwardRef<CalendarRef>((_props, ref) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [prayerLogs, setPrayerLogs] = useState<Map<string, PrayerLog>>(new Map());
 
@@ -71,8 +71,7 @@ export const Calendar = forwardRef<CalendarRef>((props, ref) => {
   };
 
   const getMonthBaseMinutes = () => {
-    // Get the first Sunday of the current month to determine base minutes
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+    // Find the first day with a duration > 0 in this month
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     // Find the first day with a duration > 0 in this month
