@@ -1,4 +1,4 @@
-import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
 import { DayData, PrayerLog } from '../types';
 import { getCalendarDays, DAYS_OF_WEEK, MONTH_NAMES, calculateDuration } from '../utils/calendar';
 import './Calendar.css';
@@ -10,6 +10,7 @@ export interface CalendarRef {
 export const Calendar = forwardRef<CalendarRef>((_props, ref) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [prayerLogs, setPrayerLogs] = useState<Map<string, PrayerLog>>(new Map());
+  const pressStartTimes = useRef<Map<string, number>>(new Map());
 
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -47,27 +48,40 @@ export const Calendar = forwardRef<CalendarRef>((_props, ref) => {
     goToToday
   }));
 
-  const toggleDay = (day: DayData) => {
+  const markDayComplete = (day: DayData) => {
     const targetMinutes = calculateDuration(day.date);
     if (targetMinutes === 0) return; // Don't log before schedule starts
 
     const newLogs = new Map(prayerLogs);
     const existing = newLogs.get(day.isoString);
 
-    if (existing?.completed) {
-      // Remove completion
-      newLogs.delete(day.isoString);
-    } else {
-      // Mark as completed
+    // Only mark as completed if not already completed
+    if (!existing?.completed) {
       newLogs.set(day.isoString, {
         date: day.isoString,
         minutes: targetMinutes,
         completed: true
       });
-    }
 
-    setPrayerLogs(newLogs);
-    saveLogs(newLogs);
+      setPrayerLogs(newLogs);
+      saveLogs(newLogs);
+    }
+  };
+
+  const markDayIncomplete = (day: DayData) => {
+    const targetMinutes = calculateDuration(day.date);
+    if (targetMinutes === 0) return; // Don't log before schedule starts
+
+    const newLogs = new Map(prayerLogs);
+    const existing = newLogs.get(day.isoString);
+
+    // Only remove completion if already completed
+    if (existing?.completed) {
+      newLogs.delete(day.isoString);
+
+      setPrayerLogs(newLogs);
+      saveLogs(newLogs);
+    }
   };
 
   const getMonthBaseMinutes = () => {
@@ -115,6 +129,33 @@ export const Calendar = forwardRef<CalendarRef>((_props, ref) => {
       day.isToday && 'today'
     ].filter(Boolean).join(' ');
 
+    const handlePressStart = () => {
+      if (isInactive) return;
+      pressStartTimes.current.set(day.isoString, Date.now());
+    };
+
+    const handlePressEnd = () => {
+      if (isInactive) return;
+
+      const startTime = pressStartTimes.current.get(day.isoString);
+      if (startTime === undefined) return;
+
+      const pressDuration = Date.now() - startTime;
+      pressStartTimes.current.delete(day.isoString);
+
+      if (pressDuration >= 1000) {
+        // Long press (>= 1 second) - remove checkmark
+        markDayIncomplete(day);
+      } else {
+        // Quick tap (< 1 second) - add checkmark
+        markDayComplete(day);
+      }
+    };
+
+    const handlePressCancel = () => {
+      pressStartTimes.current.delete(day.isoString);
+    };
+
     return (
       <div key={day.isoString} className={dayClasses}>
         <div className="day-content">
@@ -125,7 +166,10 @@ export const Calendar = forwardRef<CalendarRef>((_props, ref) => {
         </div>
         <div
           className={`day-checkbox ${isCompleted ? 'checked' : ''} ${isInactive ? 'inactive' : ''}`}
-          onClick={() => !isInactive && toggleDay(day)}
+          onPointerDown={handlePressStart}
+          onPointerUp={handlePressEnd}
+          onPointerCancel={handlePressCancel}
+          onPointerLeave={handlePressCancel}
         >
           {isCompleted && (
             <svg className="checkmark-icon" viewBox="0 0 24 24" fill="none">
